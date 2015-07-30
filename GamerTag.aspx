@@ -29,16 +29,17 @@
         <p>
             Welcome To ACM&#39;s GamerTag Database
         </p>
-            <p>
-                <asp:ImageButton ID="liveImg" runat="server" ImageUrl="~/Resources/live.png" OnClick="liveImg_Click" />
-                <asp:ImageButton ID="psnImg" runat="server" ImageUrl="~/Resources/psn.png" OnClick="psnImg_Click" />
-                <asp:ImageButton ID="steamImg" runat="server" ImageUrl="~/Resources/steam.png" OnClick="steamImg_Click" />
-                <asp:ImageButton ID="wiiuImg" runat="server" ImageUrl="~/Resources/wiiu.png" OnClick="wiiuImg_Click" />
+        <p>
+            <asp:ImageButton ID="liveImg" runat="server" ImageUrl="~/Resources/live.png" OnClick="liveImg_Click" />
+            <asp:ImageButton ID="psnImg" runat="server" ImageUrl="~/Resources/psn.png" OnClick="psnImg_Click" />
+            <asp:ImageButton ID="steamImg" runat="server" ImageUrl="~/Resources/steam.png" OnClick="steamImg_Click" />
+            <asp:ImageButton ID="wiiuImg" runat="server" ImageUrl="~/Resources/wiiu.png" OnClick="wiiuImg_Click" />
         </p>
-            
                 Name:&nbsp;&nbsp;&nbsp;
                 <asp:TextBox ID="name" runat="server" BackColor="Black" CssClass="textbox" />
-            
+                <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Games:&nbsp;&nbsp;&nbsp;
+                <asp:TextBox ID="games" runat="server" BackColor="Black" CssClass="textbox" />&nbsp;&nbsp; (Optional)
             <asp:Panel ID="livePanel" runat="server" Visible="False">
                 Live:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:TextBox ID="live" runat="server" BackColor="Black" CssClass="textbox" />

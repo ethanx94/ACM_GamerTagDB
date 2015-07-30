@@ -39,10 +39,11 @@
                     <asp:BoundField DataField="psn" HeaderText="PSN" SortExpression="psn" />
                     <asp:BoundField DataField="steam" HeaderText="Steam" SortExpression="steam" />
                     <asp:BoundField DataField="wiiu" HeaderText="WiiU" SortExpression="wiiu" />
+                    <asp:BoundField DataField="games" HeaderText="Games" SortExpression="games" />
                 </Columns>
                 <HeaderStyle BackColor="#666666" />
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [name], [live], [psn], [steam], [wiiu] FROM [Table]"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [name], [live], [psn], [steam], [wiiu], [games] FROM [Table]"></asp:SqlDataSource>
 
             <asp:Button ID="removeButton" runat="server" BackColor="Black" Text="Remove Your Entry" Visible="False" OnClick="removeButton_Click" />
 

@@ -20,6 +20,7 @@ public partial class _Default : System.Web.UI.Page
     {
         // Clear all TextBoxes
         name.Text = String.Empty;
+        games.Text = String.Empty;
 
         live.Text = String.Empty;
         psn.Text = String.Empty;
@@ -52,6 +53,8 @@ public partial class _Default : System.Web.UI.Page
             outputLabel.Text = String.Format("{0} Name: {1}",
                                           "<br />",
                                           name.Text);
+            if (games.Text != "")
+                outputLabel.Text += "<br /> Games: " + games.Text;
             if(live.Text != "")
                 outputLabel.Text += "<br /> Live: " + live.Text;
             if (psn.Text != "")
@@ -72,7 +75,7 @@ public partial class _Default : System.Web.UI.Page
         submitButton.Visible = false;
 
         // Retrieves info from textboxes
-        string insertCommand = "Insert into [dbo].[Table] ([name],[live],[psn],[steam],[wiiu]) Values('" + name.Text + "', '"+ live.Text + "', '"+ psn.Text + "', '"+ steam.Text + "', '" + wiiu.Text + "');";
+        string insertCommand = "Insert into [dbo].[Table] ([name],[live],[psn],[steam],[wiiu],[games]) Values('" + name.Text + "', '"+ live.Text + "', '"+ psn.Text + "', '"+ steam.Text + "', '" + wiiu.Text + "', '" + games.Text + "');";
 
         SqlDataSource1.InsertCommand = insertCommand;
         SqlDataSource1.Insert();
