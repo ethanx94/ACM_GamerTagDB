@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -39,10 +40,12 @@ public partial class _Default : System.Web.UI.Page
     protected void verifyButton_Click(object sender, EventArgs e)
     {
         // Validation
-        if (name.Text == "")
-            outputLabel.Text = "You must provide your name";
+        if (name.Text == "" || !name.Text.Contains(" "))
+            outputLabel.Text = "You must provide your full name";
         else if (live.Text == "" && psn.Text == "" && steam.Text == "" && wiiu.Text == "")
             outputLabel.Text = "You must provide at least a single tag";
+        else if (live.Text.Contains(" ") || psn.Text.Contains(" ") || steam.Text.Contains(" ") || wiiu.Text.Contains(" "))
+            outputLabel.Text = "Tags may not contain whitespace";
         else
         {
             //Display output only if user entered information
