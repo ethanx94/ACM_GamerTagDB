@@ -37,20 +37,35 @@ public partial class ViewAll : System.Web.UI.Page
         outputLabel.Text = "";
         delInputPanel.Visible = true;
         removeButton.Visible = false;
+        adminPanel.Visible = false;
     }
 
     protected void confirmButton_Click(object sender, EventArgs e)
     {
-        delInputPanel.Visible = false;
+        string deleteCommand = "";
 
         // Remove row pertaining to provided deletion key
-        string deleteCommand = "DELETE FROM [dbo].[Table] WHERE delkey = '" + delInputBox.Text + "'";
+        if(delInputPanel.Visible)
+            deleteCommand = "DELETE FROM [dbo].[Table] WHERE delkey = '" + delInputBox.Text + "'";
+        else if (adminPanel.Visible && passInputBox.Text.Equals("Fidelio"))
+            deleteCommand = "DELETE FROM [dbo].[Table] WHERE name = '" + adminDelInputBox.Text + "'";
+
         SqlDataSource1.DeleteCommand = deleteCommand;
-        
+
+        delInputPanel.Visible = false;
+        adminPanel.Visible = false;
+
         if (SqlDataSource1.Delete() == 1)
             outputLabel.Text = "<br /> Your gamertag(s) have been deleted! <a href =\"./GamerTag.aspx\">Add a new entry?</a>";
         else
             outputLabel.Text = "<br /> Incorrect key provided. <a href =\"./GamerTag.aspx\">Add a new entry?</a>";
 
     }
+
+    protected void adminLink_Click(object sender, EventArgs e)
+    {
+        adminPanel.Visible = true;
+        delInputPanel.Visible = false;
+    }
+
 }

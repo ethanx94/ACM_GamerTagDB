@@ -27,8 +27,9 @@
     
     <section>
         <article> 
-        <p>
-            Here are all current entries in the database:
+        <p style="text-decoration: none">
+            Here are all current entries in the database
+            <a OnServerClick="adminLink_Click" runat="server" style="text-decoration: none">:</a>
         </p>
         <p>
 
@@ -57,6 +58,13 @@
                 <asp:TextBox ID="delInputBox" runat="server" BackColor="Black"></asp:TextBox>
                 &nbsp;&nbsp;
                 <asp:Button ID="confirmButton" runat="server" BackColor="Black" OnClick="confirmButton_Click" Text="Confirm" />
+            </asp:Panel>
+            <asp:Panel ID="adminPanel" runat="server" Visible="False">
+                    Delete Name:
+                    <asp:TextBox ID="adminDelInputBox" runat="server" BackColor="Black"></asp:TextBox>
+                    &nbsp;Pass:
+                    <asp:TextBox ID="passInputBox" runat="server" BackColor="Black"></asp:TextBox>
+                    &nbsp;<asp:Button ID="adminConfirmButton" runat="server" BackColor="Black" OnClick="confirmButton_Click" Text="Confirm" />
             </asp:Panel>
         <p>
             <asp:Label ID="outputLabel" runat="server"></asp:Label>
