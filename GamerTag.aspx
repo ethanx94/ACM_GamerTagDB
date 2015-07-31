@@ -40,19 +40,19 @@
                 <br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Games:&nbsp;&nbsp;&nbsp;
                 <asp:TextBox ID="games" runat="server" BackColor="Black" CssClass="textbox" />&nbsp;&nbsp; (Optional)
-            <asp:Panel ID="livePanel" runat="server" Visible="False">
+            <asp:Panel ID="livePanel" runat="server" Visible="False" HorizontalAlign="Center">
                 Live:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:TextBox ID="live" runat="server" BackColor="Black" CssClass="textbox" />
             </asp:Panel>
-            <asp:Panel ID="psnPanel" runat="server" Visible="False">
+            <asp:Panel ID="psnPanel" runat="server" Visible="False" HorizontalAlign="Center">
                 PSN:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <asp:TextBox ID="psn" runat="server" BackColor="Black" CssClass="textbox" />
             </asp:Panel>
-            <asp:Panel ID="steamPanel" runat="server" Visible="False">
+            <asp:Panel ID="steamPanel" runat="server" Visible="False" HorizontalAlign="Center">
                 Steam:&nbsp;&nbsp;
                 <asp:TextBox ID="steam" runat="server" BackColor="Black" CssClass="textbox" />
             </asp:Panel>
-            <asp:Panel ID="wiiuPanel" runat="server" Visible="False">
+            <asp:Panel ID="wiiuPanel" runat="server" Visible="False" HorizontalAlign="Center">
                 WiiU:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:TextBox ID="wiiu" runat="server" BackColor="Black" CssClass="textbox" />
             </asp:Panel>
             <p>
@@ -62,6 +62,11 @@
             <p>
                 <asp:Label ID="outputLabel" runat="server"></asp:Label>
             </p>
+            <asp:Panel ID="delPanel" runat="server" Visible ="False" HorizontalAlign="Center">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete Key:&nbsp;&nbsp;
+                <asp:TextBox ID="delete" runat="server" BackColor="Black" CssClass="textbox" />
+                &nbsp;&nbsp;(Optional 6 chars)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </asp:Panel>
             <p>
                 <asp:Button ID="submitButton" runat="server" Text="Submit" BackColor="Black" OnClick="submitButton_Click" Visible="False" />
             </p>

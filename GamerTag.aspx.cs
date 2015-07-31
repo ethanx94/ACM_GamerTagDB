@@ -32,9 +32,11 @@ public partial class _Default : System.Web.UI.Page
         psnPanel.Visible = false;
         steamPanel.Visible = false;
         wiiuPanel.Visible = false;
+        delPanel.Visible = false;
 
         // Reset outputLabel
         outputLabel.Text = String.Empty;
+        delete.Visible = false;
         submitButton.Visible = false;
     }
 
@@ -65,6 +67,9 @@ public partial class _Default : System.Web.UI.Page
                 outputLabel.Text += "<br /> WiiU: " + wiiu.Text;
 
             outputLabel.Text += "<br />";
+
+            delete.Visible = true;
+            delPanel.Visible = true;
             submitButton.Visible = true;
         }
         
@@ -72,19 +77,25 @@ public partial class _Default : System.Web.UI.Page
 
     protected void submitButton_Click(object sender, EventArgs e)
     {
+        delPanel.Visible = false;
         submitButton.Visible = false;
 
+        // Cancel game names that contain apostrophe
+        string gamesList = games.Text.Replace("'", "''");
+
         // Retrieves info from textboxes
-        string insertCommand = "Insert into [dbo].[Table] ([name],[live],[psn],[steam],[wiiu],[games]) Values('" + name.Text + "', '"+ live.Text + "', '"+ psn.Text + "', '"+ steam.Text + "', '" + wiiu.Text + "', '" + games.Text + "');";
+        string insertCommand = "Insert into [dbo].[Table] ([name],[live],[psn],[steam],[wiiu],[games],[delkey]) Values('" + name.Text + "', '" + live.Text + "', '" + psn.Text + "', '" + steam.Text + "', '" + wiiu.Text + "', '" + gamesList + "', '" + delete.Text + "');";
 
         SqlDataSource1.InsertCommand = insertCommand;
         SqlDataSource1.Insert();
 
         // Start a session, allowing for deletion from database
-        Session.Add(name.Text, name.Text);
+        Session.Add("Name", name.Text);
 
         outputLabel.Text += "<br />Your gamertag(s) have been added! <br /> <a href=\"./ViewAll.aspx\"> Click Here To View All Entries </a>";
     }
+
+    // Reveal TextBoxs' Panels
     protected void liveImg_Click(object sender, ImageClickEventArgs e)
     {
         livePanel.Visible = true;

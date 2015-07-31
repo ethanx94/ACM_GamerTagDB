@@ -45,9 +45,19 @@
             </asp:GridView>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [name], [live], [psn], [steam], [wiiu], [games] FROM [Table]"></asp:SqlDataSource>
 
-            <asp:Button ID="removeButton" runat="server" BackColor="Black" Text="Remove Your Entry" Visible="False" OnClick="removeButton_Click" />
+        </p>
+            <p>
+
+                <asp:Button ID="deleteButton" runat="server" BackColor="Black" OnClick="deleteButton_Click" Text="Delete With Key" />
+&nbsp;<asp:Button ID="removeButton" runat="server" BackColor="Black" Text="Remove Your Entry" Visible="False" OnClick="removeButton_Click" />
 
         </p>
+            <asp:Panel ID="delInputPanel" runat="server" HorizontalAlign="Center" Visible="False">
+                Enter Delete Key:&nbsp;&nbsp;
+                <asp:TextBox ID="delInputBox" runat="server" BackColor="Black"></asp:TextBox>
+                &nbsp;&nbsp;
+                <asp:Button ID="confirmButton" runat="server" BackColor="Black" OnClick="confirmButton_Click" Text="Confirm" />
+            </asp:Panel>
         <p>
             <asp:Label ID="outputLabel" runat="server"></asp:Label>
         </p>

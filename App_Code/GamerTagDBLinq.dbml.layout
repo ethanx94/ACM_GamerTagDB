@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="GamerTagDBLinq">
+  <DataContextMoniker Name="/GamerTagDBLinqDataContext" />
+  <nestedChildShapes>
+    <classShape Id="2fe5e14f-9c04-4487-b846-63bb473da03c" absoluteBounds="2.5, 1.875, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/GamerTagDBLinqDataContext/Table" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e65f09b6-e6a8-4ca1-b199-5c83956c24dc" absoluteBounds="2.515, 2.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
