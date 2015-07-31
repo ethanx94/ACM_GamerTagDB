@@ -28,8 +28,8 @@
     <section>
         <article> 
         <p style="text-decoration: none">
-            Here are all current entries in the database
-            <a OnServerClick="adminLink_Click" runat="server" style="text-decoration: none">:</a>
+            Here are all current entries in the
+            <a OnServerClick="adminLink_Click" runat="server" style="text-decoration: none">database:</a>
         </p>
         <p>
 
@@ -55,7 +55,7 @@
         </p>
             <asp:Panel ID="delInputPanel" runat="server" HorizontalAlign="Center" Visible="False">
                 Enter Delete Key:&nbsp;&nbsp;
-                <asp:TextBox ID="delInputBox" runat="server" BackColor="Black"></asp:TextBox>
+                <asp:TextBox ID="delInputBox" runat="server" BackColor="Black" TextMode="Password"></asp:TextBox>
                 &nbsp;&nbsp;
                 <asp:Button ID="confirmButton" runat="server" BackColor="Black" OnClick="confirmButton_Click" Text="Confirm" />
             </asp:Panel>
@@ -63,7 +63,7 @@
                     Delete Name:
                     <asp:TextBox ID="adminDelInputBox" runat="server" BackColor="Black"></asp:TextBox>
                     &nbsp;Pass:
-                    <asp:TextBox ID="passInputBox" runat="server" BackColor="Black"></asp:TextBox>
+                    <asp:TextBox ID="passInputBox" runat="server" BackColor="Black" TextMode="Password"></asp:TextBox>
                     &nbsp;<asp:Button ID="adminConfirmButton" runat="server" BackColor="Black" OnClick="confirmButton_Click" Text="Confirm" />
             </asp:Panel>
         <p>

@@ -7,7 +7,13 @@ using System.Web.UI.WebControls;
 
 public partial class ViewAll : System.Web.UI.Page
 {
+    // Plaintext admin password for demonstration purposes
+    private const string PASS = "Fidelio";
+    private const string ADDNEW = "<a href =\"./GamerTag.aspx\">Add a new entry?</a>";
 
+    // String that will become SQL DeleteCommand
+    private string deleteCommand = "DELETE FROM [dbo].[Table] WHERE";
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         // Only give user option to remove if there is an active session
@@ -17,55 +23,82 @@ public partial class ViewAll : System.Web.UI.Page
         }
     }
 
+    // Remove row pertaining to user's name stored in current session
     protected void removeButton_Click(object sender, EventArgs e)
     {
-        outputLabel.Text = "";
+        clearPanels();
         removeButton.Visible = false;
 
-        // Remove row pertaining to current user's name stored in current session
-        string deleteCommand = "DELETE FROM [dbo].[Table] WHERE name = '" + Session.Contents[0] + "'";
+        // Access session's contents to create SQL deletion string
+        deleteCommand += " name = '" + Session.Contents[0] + "'";
         SqlDataSource1.DeleteCommand = deleteCommand;
-        SqlDataSource1.Delete();
 
-        outputLabel.Text = "<br />" + Session.Contents[0] + ", your gamertag(s) have been deleted! <a href =\"./GamerTag.aspx\">Add a new entry?</a>";
-
+        // Upon successful deletion
+        if (SqlDataSource1.Delete() == 1)
+            outputLabel.Text = "<br />" + Session.Contents[0] + ", your gamertag(s) have been deleted! " + ADDNEW;
+        
         // Clear the session
         Session.Clear();
-    }
-    protected void deleteButton_Click(object sender, EventArgs e)
-    {
-        outputLabel.Text = "";
-        delInputPanel.Visible = true;
-        removeButton.Visible = false;
-        adminPanel.Visible = false;
     }
 
     protected void confirmButton_Click(object sender, EventArgs e)
     {
-        string deleteCommand = "";
+        // Prevent deleting entries that contain no password
+        if (delInputBox.Text.Equals("") && passInputBox.Text.Equals("")) 
+        {
+            outputLabel.Text = "<br /> Please provide a delete key/password. ";
+            return;
+        }
 
         // Remove row pertaining to provided deletion key
-        if(delInputPanel.Visible)
-            deleteCommand = "DELETE FROM [dbo].[Table] WHERE delkey = '" + delInputBox.Text + "'";
-        else if (adminPanel.Visible && passInputBox.Text.Equals("Fidelio"))
-            deleteCommand = "DELETE FROM [dbo].[Table] WHERE name = '" + adminDelInputBox.Text + "'";
+        if(delInputPanel.Visible && !delInputBox.Text.Equals(""))
+            deleteCommand += " delkey = '" + delInputBox.Text + "'";
+        // Remove row pertaining to provided name with correct admin password
+        else if (adminPanel.Visible && passInputBox.Text.Equals(PASS))
+            deleteCommand += " name = '" + adminDelInputBox.Text + "'";
 
         SqlDataSource1.DeleteCommand = deleteCommand;
 
-        delInputPanel.Visible = false;
-        adminPanel.Visible = false;
+        clearPanels();
 
+        // Upon successful/unsuccessful deletion
         if (SqlDataSource1.Delete() == 1)
-            outputLabel.Text = "<br /> Your gamertag(s) have been deleted! <a href =\"./GamerTag.aspx\">Add a new entry?</a>";
+            outputLabel.Text = "<br /> Your gamertag(s) have been deleted! ";
         else
-            outputLabel.Text = "<br /> Incorrect key provided. <a href =\"./GamerTag.aspx\">Add a new entry?</a>";
+            outputLabel.Text = "<br /> Incorrect key provided or name does not exist. ";
 
+        outputLabel.Text += ADDNEW;
+        
+    }
+
+    /*
+     * Reveal Each TextBox's Panel
+     */
+    protected void deleteButton_Click(object sender, EventArgs e)
+    {
+        delInputPanel.Visible = true;
+        clearPanels(delInputPanel);
     }
 
     protected void adminLink_Click(object sender, EventArgs e)
     {
         adminPanel.Visible = true;
-        delInputPanel.Visible = false;
+        clearPanels(adminPanel);
     }
 
+    // Foundation for deletion logic in confirmButton_Click
+    private void clearPanels(Panel curPanel = null)
+    {
+        if (curPanel == adminPanel)
+            delInputPanel.Visible = false;
+        else if (curPanel == delInputPanel)
+            adminPanel.Visible = false;
+        else
+        { // No parameter provided (Remove Via Session)
+            delInputPanel.Visible = false;
+            adminPanel.Visible = false;
+        }
+
+        outputLabel.Text = "";
+    }
 }

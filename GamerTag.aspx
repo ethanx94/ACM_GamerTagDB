@@ -64,7 +64,7 @@
             </p>
             <asp:Panel ID="delPanel" runat="server" Visible ="False" HorizontalAlign="Center">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete Key:&nbsp;&nbsp;
-                <asp:TextBox ID="delete" runat="server" BackColor="Black" CssClass="textbox" />
+                <asp:TextBox ID="delete" runat="server" BackColor="Black" CssClass="textbox" MaxLength="6" TextMode="Password" />
                 &nbsp;&nbsp;(Optional 6 chars)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </asp:Panel>
             <p>

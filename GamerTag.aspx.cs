@@ -51,7 +51,7 @@ public partial class _Default : System.Web.UI.Page
             outputLabel.Text = "Tags may not contain whitespace";
         else
         {
-            //Display output only if user entered information
+            // Display output for each TextBox that contains data
             outputLabel.Text = String.Format("{0} Name: {1}",
                                           "<br />",
                                           name.Text);
@@ -85,17 +85,20 @@ public partial class _Default : System.Web.UI.Page
 
         // Retrieves info from textboxes
         string insertCommand = "Insert into [dbo].[Table] ([name],[live],[psn],[steam],[wiiu],[games],[delkey]) Values('" + name.Text + "', '" + live.Text + "', '" + psn.Text + "', '" + steam.Text + "', '" + wiiu.Text + "', '" + gamesList + "', '" + delete.Text + "');";
-
-        SqlDataSource1.InsertCommand = insertCommand;
-        SqlDataSource1.Insert();
-
+        
         // Start a session, allowing for deletion from database
         Session.Add("Name", name.Text);
 
-        outputLabel.Text += "<br />Your gamertag(s) have been added! <br /> <a href=\"./ViewAll.aspx\"> Click Here To View All Entries </a>";
+        SqlDataSource1.InsertCommand = insertCommand;
+
+        // Upon successful insertion
+        if(SqlDataSource1.Insert() == 1)
+            outputLabel.Text += "<br />" + Session.Contents[0] + ", your gamertag(s) have been added! <br /> <a href=\"./ViewAll.aspx\"> Click Here To View All Entries </a>";
     }
 
-    // Reveal TextBoxs' Panels
+    /*
+     * Reveal Each TextBox's Panel
+     */
     protected void liveImg_Click(object sender, ImageClickEventArgs e)
     {
         livePanel.Visible = true;
