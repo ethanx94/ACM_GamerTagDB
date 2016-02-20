@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewAll.aspx.cs" Inherits="ViewAll" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ViewAll.aspx.cs" Inherits="ViewAll" %> 
 
 <!DOCTYPE html>
 
