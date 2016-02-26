@@ -9,11 +9,11 @@ public partial class ViewAll : System.Web.UI.Page
 {
     // Plaintext admin password for demonstration purposes
     private const string PASS = "Fidelio";
-    private const string ADDNEW = "<a href =\"./GamerTag.aspx\">Add a new entry?</a>";
+    private const string ADDNEW = "<a href =\"/\">Add a new entry?</a>";
 
     // String that will become SQL DeleteCommand
     private string deleteCommand = "DELETE FROM [dbo].[Table] WHERE";
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
         // Only give user option to remove if there is an active session
@@ -36,7 +36,7 @@ public partial class ViewAll : System.Web.UI.Page
         // Upon successful deletion
         if (SqlDataSource1.Delete() == 1)
             outputLabel.Text = "<br />" + Session.Contents[0] + ", your gamertag(s) have been deleted! " + ADDNEW;
-        
+
         // Clear the session
         Session.Clear();
     }
@@ -44,14 +44,14 @@ public partial class ViewAll : System.Web.UI.Page
     protected void confirmButton_Click(object sender, EventArgs e)
     {
         // Prevent deleting entries that contain no password
-        if (delInputBox.Text.Equals("") && passInputBox.Text.Equals("")) 
+        if (delInputBox.Text.Equals("") && passInputBox.Text.Equals(""))
         {
             outputLabel.Text = "<br /> Please provide a delete key/password. ";
             return;
         }
 
         // Remove row pertaining to provided deletion key
-        if(delInputPanel.Visible && !delInputBox.Text.Equals(""))
+        if (delInputPanel.Visible && !delInputBox.Text.Equals(""))
             deleteCommand += " delkey = '" + delInputBox.Text + "'";
         // Remove row pertaining to provided name with correct admin password
         else if (adminPanel.Visible && passInputBox.Text.Equals(PASS))
@@ -68,7 +68,7 @@ public partial class ViewAll : System.Web.UI.Page
             outputLabel.Text = "<br /> Incorrect key provided or name does not exist. ";
 
         outputLabel.Text += ADDNEW;
-        
+
     }
 
     /*

@@ -1,0 +1,50 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Gamer-Tag Database</title>
+    <link rel="stylesheet" type="text/css" href="homeStyle.css"/>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <header>
+        Gamer-Tag Database
+        <br />
+        <i style="font-size: 50%">Share Gamer-Tags at Your Event!</i>
+    </header>
+        <nav>
+            <table align="center">
+                <tr>
+                    <h3> Actions: </h3>
+                </tr>
+                <tr>
+                    <td>
+                        <a href ="/">Add New Entry</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href ="ViewAll.aspx">View All Entries</a>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <a href="https://orgsync.com/22120/chapter"><img src="./Resources/acm.png" width="100" height="100" /></a>
+            <a href="https://salukilan.com"><img src="./Resources/salukilan.png" width="84" height="110" /></a>
+        </nav>
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+        <footer>
+        <p><small>
+            Copyright 2016 &copy; Ethan Richardson & Jake Reed<br />
+        </small></p>
+        </footer>
+    </form>
+</body>
+</html>
