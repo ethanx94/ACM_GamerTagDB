@@ -42,7 +42,7 @@
     </div>
         <footer>
         <p><small>
-            Copyright 2016 &copy; Ethan Richardson & Jake Reed<br />
+            Copyright <%: DateTime.Now.Year %> &copy; Ethan Richardson & Jake Reed<br />
         </small></p>
         </footer>
     </form>
