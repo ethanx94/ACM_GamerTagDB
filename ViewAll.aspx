@@ -11,18 +11,9 @@
         </p>
         <p>
 
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" HorizontalAlign="Center" AllowSorting="True">
-                <Columns>
-                    <asp:BoundField DataField="name" HeaderText="Name" SortExpression="name" />
-                    <asp:BoundField DataField="live" HeaderText="Live" SortExpression="live" />
-                    <asp:BoundField DataField="psn" HeaderText="PSN" SortExpression="psn" />
-                    <asp:BoundField DataField="steam" HeaderText="Steam" SortExpression="steam" />
-                    <asp:BoundField DataField="wiiu" HeaderText="WiiU" SortExpression="wiiu" />
-                    <asp:BoundField DataField="games" HeaderText="Games" SortExpression="games" />
-                </Columns>
-                <HeaderStyle BackColor="#666666" />
+            <asp:GridView ID="GridView1" runat="server" HorizontalAlign="Center">
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [name], [live], [psn], [steam], [wiiu], [games] FROM [Table]"></asp:SqlDataSource>
+            <!--<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [name], [live], [psn], [steam], [wiiu], [games] FROM [Table]"></asp:SqlDataSource>-->
         </p>
             <p>
                 <asp:Button ID="deleteButton" runat="server" BackColor="Black" OnClick="deleteButton_Click" Text="Delete With Key" />

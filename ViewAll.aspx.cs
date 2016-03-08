@@ -12,15 +12,24 @@ public partial class ViewAll : System.Web.UI.Page
     private const string ADDNEW = "<a href =\"/\">Add a new entry?</a>";
 
     // String that will become SQL DeleteCommand
-    private string deleteCommand = "DELETE FROM [dbo].[Table] WHERE";
+    private string deleteCommand = "DELETE FROM [dbo].[Tags] WHERE";
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        // Set up Gridview, SELECT Statment
+        GamerTagDBDataContext dbContext = new GamerTagDBDataContext();
+        GridView1.DataSource = from tag in dbContext.Tags
+                               orderby tag.name descending
+                               select tag;
+
+        GridView1.DataBind();
+
         // Only give user option to remove if there is an active session
         if (Session.Count != 0)
         {
             removeButton.Visible = true;
         }
+        
     }
 
     // Remove row pertaining to user's name stored in current session
@@ -28,14 +37,15 @@ public partial class ViewAll : System.Web.UI.Page
     {
         clearPanels();
         removeButton.Visible = false;
-
-        // Access session's contents to create SQL deletion string
-        deleteCommand += " name = '" + Session.Contents[0] + "'";
-        SqlDataSource1.DeleteCommand = deleteCommand;
-
-        // Upon successful deletion
-        if (SqlDataSource1.Delete() == 1)
+        
+        // Session Deletion
+        using (GamerTagDBDataContext dbContext = new GamerTagDBDataContext())
+        {
+            Tag tag = dbContext.Tags.SingleOrDefault(x => x.name == (String)Session.Contents[0]);
+            dbContext.Tags.DeleteOnSubmit(tag);
+            dbContext.SubmitChanges();
             outputLabel.Text = "<br />" + Session.Contents[0] + ", your gamertag(s) have been deleted! " + ADDNEW;
+        }
 
         // Clear the session
         Session.Clear();
@@ -43,32 +53,41 @@ public partial class ViewAll : System.Web.UI.Page
 
     protected void confirmButton_Click(object sender, EventArgs e)
     {
-        // Prevent deleting entries that contain no password
-        if (delInputBox.Text.Equals("") && passInputBox.Text.Equals(""))
+        using (GamerTagDBDataContext dbContext = new GamerTagDBDataContext())
         {
-            outputLabel.Text = "<br /> Please provide a delete key/password. ";
-            return;
+            Tag tag = null;
+
+            // Prevent deleting entries that contain no password
+            if (delInputBox.Text.Equals("") && passInputBox.Text.Equals(""))
+            {
+                outputLabel.Text = "<br /> Please provide a delete key/password. ";
+                return;
+            }
+
+            // DelKey Deletion
+            if (delInputPanel.Visible && !delInputBox.Text.Equals(""))
+                tag = dbContext.Tags.SingleOrDefault(x => x.delkey == delInputBox.Text);
+            // Admin Deletion
+            else if (adminPanel.Visible && passInputBox.Text.Equals(PASS)) // Need to check empty name
+                tag = dbContext.Tags.SingleOrDefault(x => x.name == adminDelInputBox.Text);
+
+            // Excecute Deletion
+            if (tag != null)
+            {
+                dbContext.Tags.DeleteOnSubmit(tag);
+                dbContext.SubmitChanges();
+
+                clearPanels();
+
+                // Upon successful/unsuccessful deletion
+                outputLabel.Text = "<br />" + adminDelInputBox.Text + ", your gamertag(s) have been deleted! " + ADDNEW;
+
+                
+            }
+            else
+                outputLabel.Text = "<br /> Incorrect key provided or name does not exist. ";
+
         }
-
-        // Remove row pertaining to provided deletion key
-        if (delInputPanel.Visible && !delInputBox.Text.Equals(""))
-            deleteCommand += " delkey = '" + delInputBox.Text + "'";
-        // Remove row pertaining to provided name with correct admin password
-        else if (adminPanel.Visible && passInputBox.Text.Equals(PASS))
-            deleteCommand += " name = '" + adminDelInputBox.Text + "'";
-
-        SqlDataSource1.DeleteCommand = deleteCommand;
-
-        clearPanels();
-
-        // Upon successful/unsuccessful deletion
-        if (SqlDataSource1.Delete() == 1)
-            outputLabel.Text = "<br /> Your gamertag(s) have been deleted! ";
-        else
-            outputLabel.Text = "<br /> Incorrect key provided or name does not exist. ";
-
-        outputLabel.Text += ADDNEW;
-
     }
 
     /*
@@ -101,4 +120,5 @@ public partial class ViewAll : System.Web.UI.Page
 
         outputLabel.Text = "";
     }
+
 }

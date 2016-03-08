@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="GamerTag_db" Class="GamerTagDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=tcp:gamertagserver.database.windows.net,1433;Initial Catalog=GamerTag_db;User ID=ethanx94@gamertagserver;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="GamerTag_dbConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Events" Member="Events">
+    <Type Name="Event">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Event_Tag" Member="Tags" ThisKey="Id" OtherKey="EventId" Type="Tag" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tags" Member="Tags">
+    <Type Name="Tag">
+      <Column Name="EventId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="live" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="psn" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="steam" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="wiiu" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="games" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="delkey" Type="System.String" DbType="NChar(6)" CanBeNull="true" />
+      <Association Name="Event_Tag" Member="Event" ThisKey="EventId" OtherKey="Id" Type="Event" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
