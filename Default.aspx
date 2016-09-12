@@ -7,7 +7,7 @@
         <article> 
         <p style="color: greenyellow">
             Welcome To The Gamer-Tag Database! <br />
-            Click on a logo to add your gamer-tag for each platform.
+            Click on a logo below to add your gamer-tag for each platform.
         </p>
         <p>
             <asp:ImageButton ID="liveImg" runat="server" ImageUrl="~/Resources/live.png" OnClick="liveImg_Click" />
