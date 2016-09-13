@@ -4,26 +4,30 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 public partial class ViewAll : System.Web.UI.Page
 {
     // Plaintext admin password for demonstration purposes
     private const string PASS = "Fidelio";
     private const string ADDNEW = "<a href =\"/\">Add a new entry?</a>";
-
-    // String that will become SQL DeleteCommand
-    private string deleteCommand = "DELETE FROM [dbo].[Tags] WHERE";
-
+    IMongoCollection<BsonDocument> collection = Global.database.GetCollection<BsonDocument>("Tags");
+    
     protected void Page_Load(object sender, EventArgs e)
     {
-        // Set up Gridview, SELECT Statment
-        GamerTagDBDataContext dbContext = new GamerTagDBDataContext();
-        GridView1.DataSource = from tag in dbContext.Tags
-                               orderby tag.name descending
-                               select tag;
+        var collection = Global.database.GetCollection<Tags>("Tags");
 
+        var query =
+            from tag in collection.AsQueryable()
+            orderby tag.name descending
+            select new { tag.name, tag.live, tag.psn, tag.steam, tag.wiiu, tag.games};
+
+        var resultList = query.ToList(); //get list of items from mongodb
+        GridView1.DataSource = resultList;
         GridView1.DataBind();
-
+        
         // Only give user option to remove if there is an active session
         if (Session.Count != 0)
         {
@@ -37,57 +41,49 @@ public partial class ViewAll : System.Web.UI.Page
     {
         clearPanels();
         removeButton.Visible = false;
-        
-        // Session Deletion
-        using (GamerTagDBDataContext dbContext = new GamerTagDBDataContext())
-        {
-            Tag tag = dbContext.Tags.SingleOrDefault(x => x.name == (String)Session.Contents[0]);
-            dbContext.Tags.DeleteOnSubmit(tag);
-            dbContext.SubmitChanges();
-            outputLabel.Text = "<br />" + Session.Contents[0] + ", your gamertag(s) have been deleted! " + ADDNEW;
-        }
 
+        // Session Deletion
+        var filter = Builders<BsonDocument>.Filter.Eq("name", Session.Contents[0]);
+        var result = collection.DeleteOne(filter);
+
+        // Upon successful deletion
+        if (result.DeletedCount == 1)
+            outputLabel.Text = "<br/>" + Session.Contents[0] + ", your gamertag(s) have been deleted! " + ADDNEW;
+        
         // Clear the session
         Session.Clear();
     }
 
     protected void confirmButton_Click(object sender, EventArgs e)
     {
-        using (GamerTagDBDataContext dbContext = new GamerTagDBDataContext())
+        var filter = Builders<BsonDocument>.Filter.Eq("delKey", delInputBox.Text); ;
+        
+        // Prevent deleting entries that contain no password
+        if (delInputBox.Text.Equals("") && passInputBox.Text.Equals(""))
         {
-            Tag tag = null;
-
-            // Prevent deleting entries that contain no password
-            if (delInputBox.Text.Equals("") && passInputBox.Text.Equals(""))
-            {
-                outputLabel.Text = "<br /> Please provide a delete key/password. ";
-                return;
-            }
-
-            // DelKey Deletion
-            if (delInputPanel.Visible && !delInputBox.Text.Equals(""))
-                tag = dbContext.Tags.SingleOrDefault(x => x.delkey == delInputBox.Text);
-            // Admin Deletion
-            else if (adminPanel.Visible && passInputBox.Text.Equals(PASS)) // Need to check empty name
-                tag = dbContext.Tags.SingleOrDefault(x => x.name == adminDelInputBox.Text);
-
-            // Excecute Deletion
-            if (tag != null)
-            {
-                dbContext.Tags.DeleteOnSubmit(tag);
-                dbContext.SubmitChanges();
-
-                clearPanels();
-
-                // Upon successful/unsuccessful deletion
-                outputLabel.Text = "<br />" + adminDelInputBox.Text + ", your gamertag(s) have been deleted! " + ADDNEW;
-
-                
-            }
-            else
-                outputLabel.Text = "<br /> Incorrect key provided or name does not exist. ";
-
+            outputLabel.Text = "<br/> Please provide a delete key/password. ";
+            return;
         }
+
+        // Remove row pertaining to provided deletion key
+        if (delInputPanel.Visible && !delInputBox.Text.Equals(""))
+            filter = Builders<BsonDocument>.Filter.Eq("delKey", delInputBox.Text);
+        // Remove row pertaining to provided name with correct admin password
+        else if (adminPanel.Visible && passInputBox.Text.Equals(PASS))
+            filter = Builders<BsonDocument>.Filter.Eq("name", adminDelInputBox.Text);
+
+        var result = collection.DeleteOne(filter);
+
+        clearPanels();
+
+        // Upon successful/unsuccessful deletion
+        if (result.DeletedCount == 1)
+            outputLabel.Text = "<br/> Your gamertag(s) have been deleted! ";
+        else
+            outputLabel.Text = "<br/> Incorrect key provided or name does not exist. ";
+
+        outputLabel.Text += ADDNEW;
+      
     }
 
     /*

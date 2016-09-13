@@ -10,10 +10,8 @@
             <a OnServerClick="adminLink_Click" runat="server" style="text-decoration: none">database:</a>
         </p>
         <p>
-
             <asp:GridView ID="GridView1" runat="server" HorizontalAlign="Center">
             </asp:GridView>
-            <!--<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [name], [live], [psn], [steam], [wiiu], [games] FROM [Table]"></asp:SqlDataSource>-->
         </p>
             <p>
                 <asp:Button ID="deleteButton" runat="server" BackColor="Black" OnClick="deleteButton_Click" Text="Delete With Key" />

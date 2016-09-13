@@ -4,13 +4,17 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using System.Threading.Tasks;
 
 public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         // Clear the last session for adding additional entries
-        Session.Clear();
+        Session.Clear();    
     }
 
     protected void clearButton_Click(object sender, EventArgs e)
@@ -81,16 +85,25 @@ public partial class _Default : System.Web.UI.Page
         string gamesList = games.Text.Replace("'", "''");
 
         // Retrieves info from textboxes
-        string insertCommand = "Insert into [dbo].[Table] ([name],[live],[psn],[steam],[wiiu],[games],[delkey]) Values('" + name.Text + "', '" + live.Text + "', '" + psn.Text + "', '" + steam.Text + "', '" + wiiu.Text + "', '" + gamesList + "', '" + delete.Text + "');";
+        var document = new BsonDocument
+        {
+            { "name", name.Text },
+            { "live", live.Text },
+            { "psn", psn.Text },
+            { "steam", steam.Text },
+            { "wiiu", wiiu.Text },
+            { "games", games.Text },
+            { "delKey", delete.Text }
+        };
 
         // Start a session, allowing for deletion from database
         Session.Add("Name", name.Text);
 
-        SqlDataSource1.InsertCommand = insertCommand;
-
+        var collection = Global.database.GetCollection<BsonDocument>("Tags");
+        
         // Upon successful insertion
-        if (SqlDataSource1.Insert() == 1)
-            outputLabel.Text += "<br />" + Session.Contents[0] + ", your gamertag(s) have been added! <br /> <a href=\"./ViewAll.aspx\"> Click Here To View All Entries </a>";
+        collection.InsertOne(document);
+        outputLabel.Text += "<br />" + Session.Contents[0] + ", your gamertag(s) have been added! <br /> <a href=\"./ViewAll.aspx\"> Click Here To View All Entries </a>";
     }
 
     /*

@@ -89,9 +89,6 @@
             <p>
                 <asp:Button ID="submitButton" runat="server" Text="Submit" BackColor="Black" OnClick="submitButton_Click" Visible="False" />
             </p>
-            <p>
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GamerTagDBConnectionString %>" SelectCommand="SELECT [live], [name], [psn], [steam], [wiiu] FROM [Table]"></asp:SqlDataSource>
-            </p>
         </article>
      </section>
 </asp:Content>
